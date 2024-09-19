@@ -1,0 +1,63 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class NumberGuessingGame {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        boolean playAgain = true;
+        int totalScore = 0;
+        int round = 1;
+
+        System.out.println("Welcome to the Enhanced Number Guessing Game!");
+
+        while (playAgain) {
+            System.out.println("\n--- Round " + round + " ---");
+            
+            // Step 1: Generate a random number within a range (1-100)
+            int numberToGuess = random.nextInt(100) + 1; 
+            int attemptsLeft = 5;  // Step 5: Limiting attempts to 5 per round
+            boolean hasGuessedCorrectly = false;
+
+            while (attemptsLeft > 0 && !hasGuessedCorrectly) {
+                System.out.println("\nYou have " + attemptsLeft + " attempts left.");
+                System.out.print("Enter your guess (between 1 and 100): ");
+                int guess = scanner.nextInt();
+                attemptsLeft--;
+
+                // Step 3: Provide feedback on the guess
+                if (guess < numberToGuess) {
+                    System.out.println("Too low! Try again.");
+                } else if (guess > numberToGuess) {
+                    System.out.println("Too high! Try again.");
+                } else {
+                    System.out.println("Congratulations! You guessed the correct number.");
+                    hasGuessedCorrectly = true;
+                    totalScore += attemptsLeft * 10;  // Add to the score based on remaining attempts
+                }
+            }
+
+            if (!hasGuessedCorrectly) {
+                System.out.println("Sorry, you've used all your attempts. The correct number was " + numberToGuess);
+            }
+
+            // Step 7: Display the user's score
+            System.out.println("Your current score: " + totalScore + " points.");
+
+            // Step 6: Ask if they want to play again
+            System.out.print("Do you want to play another round? (yes/no): ");
+            String response = scanner.next();
+
+            if (response.equalsIgnoreCase("no")) {
+                playAgain = false;
+                System.out.println("Thanks for playing! Your final score is " + totalScore + " points.");
+            } else {
+                round++;
+            }
+        }
+
+        scanner.close();
+    }
+}
